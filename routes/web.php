@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('admin')
+    ->middleware(['auth', 'permission:view admin dashboard'])
+    ->name('admin.')
+    ->group(static function (){
+        Route::get('/',[HomeController::class, 'index'])->name('home.index');
+    });
